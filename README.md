@@ -12,4 +12,4 @@
 
 ## Домен сервера
 
-https://api.liza.diplom.nomoredomains.sbs
+https://api.liza.diplom.nomorepartiesxyz.ru
