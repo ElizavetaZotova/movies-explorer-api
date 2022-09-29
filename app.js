@@ -3,23 +3,18 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
+const helmet = require('helmet');
 const morgan = require('morgan');
 const { errors } = require('celebrate');
 
-
-const NotFound = require('./errors/not-found');
-
-const { login, createUser } = require('./controllers/users');
-
-const { loginValidationSchema, createUserValidationSchema } = require('./middlewares/validators');
-const auth = require('./middlewares/auth');
 const defaultError = require('./middlewares/default-error');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
-const userRouter = require('./routes/users');
-const moviesRouter = require('./routes/movies');
+const initRoutes = require('./routes');
 
-const { PORT = 3000 } = process.env;
+const limiter = require('./utils/rate-limiter');
+
+const { PORT = 3000, DB_NAME = 'moviesdb' } = process.env;
 
 const allowedCors = [
   'http://liza.nomoredomains.sbs',
@@ -30,7 +25,6 @@ const allowedCors = [
 
 const app = express();
 
-// eslint-disable-next-line consistent-return
 app.use((req, res, next) => {
   const { origin } = req.headers;
   const { method } = req;
@@ -49,40 +43,20 @@ app.use((req, res, next) => {
     return res.status(200).send();
   }
 
-  next();
+  return next();
 });
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-
+app.use(helmet());
 app.use(cookieParser());
 app.use(requestLogger);
-
 app.use(morgan('tiny'));
+app.use(limiter);
 
-app.get('/crash-test', () => {
-  setTimeout(() => {
-    throw new Error('Сервер сейчас упадёт');
-  }, 0);
-});
+initRoutes(app);
 
-app.post('/signin', loginValidationSchema, login);
-app.post('/signup', createUserValidationSchema, createUser);
-
-app.get('/signout', (req, res) => {
-  res.clearCookie('jwt').send({ message: 'Выход' });
-});
-
-app.use(auth);
-
-app.use('/', userRouter);
-app.use('/', moviesRouter);
-
-app.use('*', () => {
-  throw new NotFound('Запрашиваемый URL не существует');
-});
-
-mongoose.connect('mongodb://localhost:27017/bitfilmsdb', {
+mongoose.connect(`mongodb://localhost:27017/${DB_NAME}`, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
@@ -91,5 +65,4 @@ app.use(errorLogger);
 app.use(errors());
 app.use(defaultError);
 
-// eslint-disable-next-line no-console
-app.listen(PORT, () => console.log(`Сервер запущен на ${PORT} порту`));
+app.listen(PORT, () => { console.log('SERVER START')});

@@ -1,5 +1,6 @@
 const { Schema, model } = require('mongoose');
 const { linkRegExp } = require('../const/patterns');
+const { INVALID_LINK } = require('../const/errors-message');
 
 const movieSchema = new Schema({
   country: {
@@ -29,7 +30,7 @@ const movieSchema = new Schema({
       validator(link) {
         return linkRegExp.test(link);
       },
-      message: 'Неверная ссылка',
+      message: INVALID_LINK,
     },
   },
   trailerLink: {
@@ -39,7 +40,7 @@ const movieSchema = new Schema({
       validator(link) {
         return linkRegExp.test(link);
       },
-      message: 'Неверная ссылка',
+      message: INVALID_LINK,
     },
   },
   thumbnail: {
@@ -49,7 +50,7 @@ const movieSchema = new Schema({
       validator(link) {
         return linkRegExp.test(link);
       },
-      message: 'Неверная ссылка',
+      message: INVALID_LINK,
     },
   },
   owner: {
@@ -58,7 +59,7 @@ const movieSchema = new Schema({
     required: true,
   },
   movieId: {
-    type: String,
+    type: Number,
     required: true,
   },
   nameRU: {

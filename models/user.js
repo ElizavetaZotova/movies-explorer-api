@@ -2,6 +2,7 @@ const { Schema, model } = require('mongoose');
 const { isEmail } = require('validator');
 const bcrypt = require('bcrypt');
 const UnauthorizedError = require('../errors/unauthorized-error');
+const { INVALID_AUTH_DATA } = require('../const/errors-message');
 
 const userSchema = new Schema({
   email: {
@@ -27,21 +28,22 @@ const userSchema = new Schema({
   },
 });
 
-// eslint-disable-next-line func-names
-userSchema.statics.checkUserPassword = function (email, password) {
+function checkUserPassword(email, password) {
   return this.findOne({ email }).select('+password')
     .then((user) => {
       if (!user) {
-        throw new UnauthorizedError('Неверный email или пароль');
+        throw new UnauthorizedError(INVALID_AUTH_DATA);
       }
       return bcrypt.compare(password, user.password)
         .then((matched) => {
           if (!matched) {
-            throw new UnauthorizedError('Неверный email или пароль');
+            throw new UnauthorizedError(INVALID_AUTH_DATA);
           }
           return user;
         });
     });
-};
+}
+
+userSchema.statics.checkUserPassword = checkUserPassword;
 
 module.exports = model('user', userSchema);

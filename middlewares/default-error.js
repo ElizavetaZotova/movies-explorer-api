@@ -1,4 +1,5 @@
 const { ERR_DEFAULT } = require('../const/errors');
+const { DEFAULT_SERVER_ERROR } = require('../const/errors-message');
 
 const defaultError = (err, req, res, next) => {
   const { statusCode = ERR_DEFAULT, message } = err;
@@ -7,7 +8,7 @@ const defaultError = (err, req, res, next) => {
     .status(statusCode)
     .send({
       message: statusCode === ERR_DEFAULT
-        ? 'Ошибка сервера. Попробуйте позже'
+        ? DEFAULT_SERVER_ERROR
         : message,
     });
 
