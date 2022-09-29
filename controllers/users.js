@@ -19,22 +19,18 @@ module.exports.createUser = (req, res, next) => {
 
   bcrypt
     .hash(password, 10)
-    .then((hash) =>
-      User.create({
-        name,
-        email,
-        password: hash,
-      })
-    )
-    .then((user) =>
-      res.send({
-        data: {
-          _id: user._id,
-          name: user.name,
-          email: user.email,
-        },
-      })
-    )
+    .then((hash) => User.create({
+      name,
+      email,
+      password: hash,
+    }))
+    .then((user) => res.send({
+      data: {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+      },
+    }))
     .catch((err) => {
       if (err.name === 'MongoServerError' && err.code === 11000) {
         next(new ConflictError(EMAIL_EXIST_MESSAGE));
@@ -56,7 +52,7 @@ module.exports.login = (req, res, next) => {
       const token = jwt.sign(
         { _id: user._id },
         NODE_ENV === 'production' ? JWT_SECRET : 'secret-key',
-        { expiresIn: '7d' }
+        { expiresIn: '7d' },
       );
 
       res
@@ -104,7 +100,7 @@ module.exports.updateUser = (req, res, next) => {
       return User.findByIdAndUpdate(
         userId,
         { name, email },
-        { new: true, runValidators: true }
+        { new: true, runValidators: true },
       );
     })
     .then((user) => {

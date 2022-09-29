@@ -5,7 +5,7 @@ const ForbiddenError = require('../errors/forbidden-error');
 
 const {
   FILM_BY_ID_NOT_FOUND,
-  PERMISSIONS_DENIED
+  PERMISSIONS_DENIED,
 } = require('../const/errors-message');
 
 module.exports.createUserMovie = (req, res, next) => {

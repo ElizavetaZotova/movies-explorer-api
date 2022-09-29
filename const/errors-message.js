@@ -8,7 +8,6 @@ const DEFAULT_SERVER_ERROR = 'Ошибка сервера. Попробуйте 
 const INVALID_AUTH_DATA = 'Неверный email или пароль';
 const INVALID_LINK = 'Неверная ссылка';
 
-
 module.exports = {
   EMAIL_EXIST_MESSAGE,
   USER_WITH_ID_NOT_FOUND,
@@ -18,5 +17,5 @@ module.exports = {
   USER_NOT_AUTH,
   DEFAULT_SERVER_ERROR,
   INVALID_AUTH_DATA,
-  INVALID_LINK
+  INVALID_LINK,
 };

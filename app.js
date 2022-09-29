@@ -65,4 +65,4 @@ app.use(errorLogger);
 app.use(errors());
 app.use(defaultError);
 
-app.listen(PORT, () => { console.log('SERVER START')});
+app.listen(PORT);
