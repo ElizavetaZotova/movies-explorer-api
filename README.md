@@ -12,4 +12,4 @@
 
 ## Домен сервера
 
-https://api.liza.diplom.nomorepartiesxyz.ru
+https://api.liza.diplom.nomoredomains.club/movies
