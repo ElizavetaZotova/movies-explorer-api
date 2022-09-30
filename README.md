@@ -1,1 +1,15 @@
-# movies-explorer-api
+# API для дипломного проекта movies-explorer
+## Запуск проекта
+Для запуска проекта:
+1. Клонировать репозиторий
+2. Установить зависимости `npm install`
+3. Запустить проект `npm start`
+4. Проект запускается на http://localhost:3000/
+
+## Публичный IP-адрес сервера
+
+51.250.96.186
+
+## Домен сервера
+
+https://api.liza.diplom.nomoredomains.club/movies
