@@ -17,9 +17,10 @@ const limiter = require('./utils/rate-limiter');
 const { PORT = 3000, DB_NAME = 'moviesdb' } = process.env;
 
 const allowedCors = [
-  'http://liza.nomoredomains.sbs',
-  'https://liza.nomoredomains.sbs',
+  'http://liza.diplom.nomoredomains.club/s',
+  'https://liza.diplom.nomoredomains.club/',
   'http://localhost:3001',
+  'http://localhost:3000',
   'http://51.250.96.186',
 ];
 
